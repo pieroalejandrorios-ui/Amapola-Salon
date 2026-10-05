@@ -101,12 +101,19 @@ p{margin:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 .hero-wave{display:block;width:100%;height:40px;margin-top:-1px}
 .hero-wave path{fill:var(--bg)}
+.hero-bg,.swipe-hint{display:none}
 @media (max-width:860px){
-  /* celular: primero el texto y debajo la foto completa (proporción 1448x1086) */
-  .hero{background-size:100% auto;background-position:center bottom;background-color:#2B1C17}
-  .hero::before{background:linear-gradient(0deg,rgba(43,28,23,0) 0,rgba(43,28,23,0) calc(75vw - 60px),#2B1C17 75vw,#2B1C17 100%)}
-  .hero .wrap{min-height:0;padding-top:40px;padding-bottom:calc(75vw + 8px)}
-  .hero-wave{display:none}
+  /* celular: igual que escritorio, pero la foto se puede deslizar en horizontal */
+  .hero{background:#2B1C17}
+  .hero-bg{display:block;position:absolute;inset:0;z-index:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .hero-bg::-webkit-scrollbar{display:none}
+  .hero-bg img{height:100%;width:auto;max-width:none}
+  .hero::before{z-index:1;pointer-events:none;background:rgba(43,20,12,.55)}
+  .hero .wrap{z-index:2;pointer-events:none}
+  .hero .wrap a,.hero .wrap button{pointer-events:auto}
+  .hero-wave{z-index:2;pointer-events:none}
+  .swipe-hint{display:flex;align-items:center;gap:6px;position:absolute;left:50%;bottom:52px;transform:translateX(-50%);z-index:2;pointer-events:none;font-family:var(--f-display);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:rgba(0,0,0,.35);padding:6px 12px;border-radius:999px;white-space:nowrap;transition:opacity .4s}
+  .swipe-hint.gone{opacity:0}
 }
 
 /* ---------- Ticker ---------- */
@@ -320,6 +327,8 @@ form.booking{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;g
 
 <main>
 <section class="hero" id="inicio">
+  <div class="hero-bg" id="heroBg" aria-hidden="true"><img src="assets/portada.png" alt=""></div>
+  <span class="swipe-hint" id="swipeHint" aria-hidden="true">← Desliza para ver la foto →</span>
   <div class="wrap">
     <div class="hero-copy">
       <span class="eyebrow"><svg class="star"><use href="#spark"/></svg> Salón de belleza en Lima</span>
@@ -591,6 +600,10 @@ form.booking{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;g
   });
   const step = () => chain.querySelector(".link").offsetWidth + parseFloat(getComputedStyle(chain).columnGap || 56);
   const svc = $("#services"), svcStep = () => svc.querySelector(".svc-link").offsetWidth + 56;
+  const heroBg = $("#heroBg");
+  const centerHero = () => { if (heroBg.offsetParent) heroBg.scrollLeft = (heroBg.scrollWidth - heroBg.clientWidth) / 2; };
+  heroBg.querySelector("img").complete ? centerHero() : heroBg.querySelector("img").addEventListener("load", centerHero);
+  heroBg.addEventListener("scroll", () => $("#swipeHint").classList.add("gone"), {once:true, passive:true});
   $("#waFloat").href = "https://wa.me/" + WHATSAPP;
   $("#svcPrev").onclick = () => svc.scrollBy({left:-svcStep(), behavior:"smooth"});
   $("#svcNext").onclick = () => svc.scrollBy({left: svcStep(), behavior:"smooth"});
