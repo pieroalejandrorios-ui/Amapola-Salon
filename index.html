@@ -315,11 +315,11 @@ form.booking{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;g
     </button>
     <nav class="nav" id="nav">
       <a href="#inicio">Inicio</a>
+      <a href="#nosotros">Nosotros</a>
       <a href="#servicios">Servicios</a>
       <a href="#productos">Productos</a>
       <a href="#trabajos">Trabajos</a>
       <a href="#equipo">Equipo</a>
-      <a href="#nosotros">Sobre nosotros</a>
       <a href="#reservar" class="btn btn-white" data-book>Reservar cita</a>
     </nav>
   </div>
@@ -356,6 +356,26 @@ form.booking{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;g
     <span>Manicure <svg><use href="#spark"/></svg> Pedicure <svg><use href="#spark"/></svg> Uñas acrílicas <svg><use href="#spark"/></svg> Corte y color <svg><use href="#spark"/></svg> Tratamientos capilares <svg><use href="#spark"/></svg> Limpieza facial <svg><use href="#spark"/></svg> Masajes descontracturantes <svg><use href="#spark"/></svg></span>
   </div>
 </div>
+
+<section class="section" id="nosotros">
+  <div class="wrap about">
+    <div class="about-img">
+      <img src="assets/nosotros.jpg" alt="Asesora de Amapola sonriendo en el salón" loading="lazy">
+      <div class="stamp"><b>+5,000</b><small>Clientas felices</small></div>
+    </div>
+    <div class="about-copy">
+      <span class="eyebrow"><svg class="star"><use href="#spark"/></svg> Nosotros</span>
+      <h2>Bienvenida a <em>Amapola</em></h2>
+      <p>Somos un salón de belleza creado para que te sientas en confianza desde que cruzas la puerta. Aquí te escuchamos, te asesoramos y te recomendamos lo que de verdad va contigo: el tono de cabello que te ilumina, las uñas que combinan con tu estilo o el tratamiento que tu piel necesita.</p>
+      <p>Nuestro equipo se capacita constantemente en las últimas tendencias y trabaja con productos de calidad y material esterilizado, para que salgas sintiéndote tú, pero en tu mejor versión.</p>
+      <div class="values">
+        <div><b>Asesoría</b><span>Te recomendamos lo que te favorece.</span></div>
+        <div><b>Higiene</b><span>Material esterilizado en cada cita.</span></div>
+        <div><b>Calidez</b><span>Te atendemos como en casa.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section class="section" id="servicios">
   <div class="wrap">
@@ -448,25 +468,6 @@ form.booking{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;g
   </div>
 </section>
 
-<section class="section" id="nosotros">
-  <div class="wrap about">
-    <div class="about-img">
-      <img src="assets/foto-06.jpg" alt="Clienta mirando su manicure verde oscuro" loading="lazy">
-      <div class="stamp"><b>+5,000</b><small>Clientas felices</small></div>
-    </div>
-    <div class="about-copy">
-      <span class="eyebrow"><svg class="star"><use href="#spark"/></svg> Sobre nosotros</span>
-      <h2>Belleza con <em>calma</em></h2>
-      <p>Amapola nació con una idea simple: que ir al salón sea un momento para ti. Nuestro espacio está pensado para que te relajes mientras cuidamos cada detalle, desde un lavado de cabello hasta un diseño de uñas.</p>
-      <p>Trabajamos con productos de calidad, herramientas esterilizadas y un equipo que escucha lo que quieres antes de empezar.</p>
-      <div class="values">
-        <div><b>Detalle</b><span>Acabados prolijos que duran.</span></div>
-        <div><b>Higiene</b><span>Material esterilizado en cada cita.</span></div>
-        <div><b>Calidez</b><span>Te atendemos como en casa.</span></div>
-      </div>
-    </div>
-  </div>
-</section>
 
 <section class="cta-band">
   <div class="wrap">
@@ -537,6 +538,8 @@ form.booking{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;g
   /* ===== Datos (editar aquí) ===== */
   const WHATSAPP = "51943234578"; // WhatsApp del salón
   const VIDEOS = [
+    {id:"7648418291186191624", title:"Este tono te rejuvenece", img:"assets/video-06.jpg", user:"sinlimitessalonspa_sjl"},
+    {id:"7624331055562018056", title:"Color y brillo", img:"assets/video-07.jpg", user:"sinlimitessalonspa_sjl"},
     {id:"7625792895479500053", title:"Uñas con estilo", img:"assets/foto-03.jpg"},
     {id:"7625785198285769985", title:"Detalles que enamoran", img:"assets/foto-02.jpg"},
     {id:"7619492295875874066", title:"Lavado y tratamiento", img:"assets/foto-01.jpg"},
@@ -579,13 +582,13 @@ form.booking{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;g
   /* ===== Trabajos: cadena de TikToks ===== */
   const chain = $("#chain");
   chain.innerHTML = VIDEOS.map((v,i) => {
-    const url = `https://www.tiktok.com/@amapolasalon.pe/video/${v.id}`;
+    const user = v.user || "amapolasalon.pe", url = `https://www.tiktok.com/@${user}/video/${v.id}`;
     return `<div class="link">
-      <div class="tk" data-id="${v.id}">
+      <div class="tk" data-id="${v.id}" data-user="${user}">
         <button class="poster" type="button" aria-label="Reproducir video: ${v.title}">
           <img src="${v.img}" alt="" loading="lazy">
           <span class="play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></span>
-          <span class="cap"><b>${v.title}</b><small>@amapolasalon.pe</small></span>
+          <span class="cap"><b>${v.title}</b><small>@${user}</small></span>
         </button>
       </div>
       <span class="knot">${spark}</span>
@@ -595,7 +598,7 @@ form.booking{padding:24px 28px 28px;display:grid;grid-template-columns:1fr 1fr;g
   chain.addEventListener("click", e => {
     const btn = e.target.closest(".poster"); if (!btn) return;
     const tk = btn.parentElement, id = tk.dataset.id;
-    if (PREVIEW) { window.open(`https://www.tiktok.com/@amapolasalon.pe/video/${id}`, "_blank", "noopener"); return; }
+    if (PREVIEW) { window.open(`https://www.tiktok.com/@${tk.dataset.user}/video/${id}`, "_blank", "noopener"); return; }
     tk.innerHTML = `<iframe src="https://www.tiktok.com/player/v1/${id}?autoplay=1&rel=0&description=0&music_info=0" allow="autoplay; fullscreen; encrypted-media; picture-in-picture" allowfullscreen title="Video de TikTok de Amapola"></iframe>`;
   });
   const step = () => chain.querySelector(".link").offsetWidth + parseFloat(getComputedStyle(chain).columnGap || 56);
